@@ -2,61 +2,62 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Happy Anniversary ❤️</title>
+<title>Happy Anniversary</title>
 
 <style>
-body {
-  font-family: Arial;
-  text-align: center;
-  background: #ffe6f0;
-  padding: 20px;
-  overflow-x: hidden;
+body{
+font-family:Arial;
+text-align:center;
+background:#ffe6f0;
+padding:20px;
+overflow-x:hidden;
 }
 
-.question {
-  margin-top: 60px;
+.question{margin-top:60px;}
+
+button{
+margin:6px;
+padding:10px 15px;
+border-radius:8px;
+border:none;
+cursor:pointer;
 }
 
-button {
-  margin: 6px;
-  padding: 10px 15px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
+.hidden{display:none;}
+
+img{width:260px;border-radius:12px;margin-top:10px;}
+
+.heart{
+font-size:40px;
+animation:pop .5s ease;
 }
 
-.hidden {
-  display: none;
-}
-
-img {
-  width: 250px;
-  margin-top: 10px;
-  border-radius: 12px;
+@keyframes pop{
+0%{transform:scale(0);}
+100%{transform:scale(1);}
 }
 
 /* popup */
-#popup {
-  position: fixed;
-  top:0;left:0;
-  width:100%;
-  height:100%;
-  background:black;
-  color:white;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  font-size:24px;
-  z-index:999;
+#popup{
+position:fixed;
+top:0;left:0;
+width:100%;
+height:100%;
+background:black;
+color:white;
+display:none;
+justify-content:center;
+align-items:center;
+text-align:center;
+z-index:999;
+font-size:24px;
 }
 
 /* fireworks */
-canvas {
-  position: fixed;
-  top:0;
-  left:0;
-  pointer-events:none;
+canvas{
+position:fixed;
+top:0;left:0;
+pointer-events:none;
 }
 </style>
 
@@ -66,26 +67,30 @@ canvas {
 
 <h1>❤️ Happy Anniversary ❤️</h1>
 
-<audio id="loveSound"
-src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3?filename=romantic-love-ambient-110863.mp3">
+<audio id="sound"
+src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 </audio>
 
 <!-- Q1 -->
 <div id="q1" class="question">
 <h3>How did you fall for me?</h3>
-<button onclick="next(2)">Slowly</button>
-<button onclick="next(2)">All at once</button>
-<button onclick="next(2)">It just happened</button>
-<button onclick="next(2)">You hacked my heart</button>
+
+<button onclick="q1()">Slowly</button>
+<button onclick="q1()">All at once</button>
+<button onclick="q1()">It just happened</button>
+<button onclick="q1()">You hacked my heart</button>
+
+<div id="heart"></div>
 </div>
 
 <!-- Q2 -->
 <div id="q2" class="question hidden">
 <h3>What do you do when you miss me?</h3>
-<button onclick="showImage()">Text me</button>
-<button onclick="showImage()">Think about me</button>
-<button onclick="showImage()">Smile like an idiot</button>
-<button onclick="showImage()">All of the above</button>
+
+<button onclick="q2()">Text me</button>
+<button onclick="q2()">Think about me</button>
+<button onclick="q2()">Smile like an idiot</button>
+<button onclick="q2()">All of the above</button>
 
 <div id="imgArea"></div>
 </div>
@@ -94,12 +99,12 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3?file
 <div id="q3" class="question hidden">
 <h3>What do you want us to do today?</h3>
 
-<button onclick="error404()">Cute Date</button>
-<button onclick="error404()">Long Drive</button>
-<button onclick="error404()">Stay in & do nothing</button>
-<button onclick="error404()">Surprise me</button>
+<button onclick="q3()">Cute Date</button>
+<button onclick="q3()">Long Drive</button>
+<button onclick="q3()">Stay in & do nothing</button>
+<button onclick="q3()">Surprise me</button>
 
-<div id="errArea"></div>
+<div id="err"></div>
 </div>
 
 <!-- Q4 -->
@@ -112,123 +117,130 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3?file
 <!-- Q5 -->
 <div id="q5" class="question hidden">
 <h3>Leave a message when I'm dramatic</h3>
-<textarea rows="4" cols="30"></textarea>
+<textarea rows="4" cols="30"></textarea><br>
 <button onclick="next(6)">Continue</button>
 </div>
 
-<!-- Agreement -->
+<!-- Q6 -->
 <div id="q6" class="question hidden">
 <h3>By submitting you agree to:</h3>
 <p>Love me, be mine & deal with my nonsense forever 😜</p>
-
 <button onclick="finish()">I Accept ❤️</button>
 <button disabled>No</button>
 </div>
 
-<h2 id="finalMsg"></h2>
+<h2 id="final"></h2>
 
 <div id="popup">
 <div>
-❤️ This field is locked for your safety ❤️
-<br><br>
+<p id="popupText"></p>
 <button onclick="closePopup()">Continue</button>
 </div>
 </div>
 
-<canvas id="fireworks"></canvas>
+<canvas id="fire"></canvas>
 
 <script>
-const sound = document.getElementById("loveSound");
+const sound=document.getElementById("sound");
 
-function playSound(){
-  sound.currentTime = 0;
-  sound.play();
+function play(){sound.currentTime=0;sound.play();}
+
+function next(n){
+document.getElementById("q"+n)
+.classList.remove("hidden");
+document.getElementById("q"+n)
+.scrollIntoView({behavior:"smooth"});
 }
 
-function next(num){
-  playSound();
-  document.getElementById("q"+num)
-    .classList.remove("hidden");
+/* Q1 */
+function q1(){
+play();
+document.getElementById("heart").innerHTML=
+"<div class='heart'>❤️❤️❤️</div>";
 
-  document.getElementById("q"+num)
-    .scrollIntoView({behavior:"smooth"});
+setTimeout(()=>next(2),600);
 }
 
-function showImage(){
-  playSound();
-  document.getElementById("imgArea").innerHTML =
-  "<img src='couple.jpg'>";
-  next(3);
+/* Q2 */
+function q2(){
+play();
+document.getElementById("imgArea").innerHTML=
+"<img src='couple.jpg'>";
+setTimeout(()=>next(3),600);
 }
 
-function error404(){
-  playSound();
-  document.getElementById("errArea").innerHTML =
-  "<h3>Error 404 😜 Plan not found</h3>";
-  next(4);
+/* Q3 */
+function q3(){
+play();
+document.getElementById("err").innerHTML=
+"<h3>Error 404 😜 Plan not found</h3>";
+setTimeout(()=>next(4),600);
 }
 
+/* Love popup */
 function love(){
-  playSound();
-  document.getElementById("popup").style.display="flex";
+play();
+document.getElementById("popupText").innerHTML=
+"❤️ This field is locked for your safety ❤️";
+document.getElementById("popup").style.display="flex";
 }
 
 function closePopup(){
-  document.getElementById("popup").style.display="none";
-  next(5);
+document.getElementById("popup").style.display="none";
+next(5);
 }
 
+/* Finish */
 function finish(){
-  playSound();
-  document.getElementById("finalMsg").innerHTML =
-  "🎉❤️ Happy Anniversary Pattu ❤️🎉";
-  startFireworks();
+play();
+document.getElementById("final").innerHTML=
+"🎉❤️ Happy Anniversary Pattu ❤️🎉";
+fireworks();
 }
 
-/* Fireworks */
-const canvas = document.getElementById("fireworks");
-const ctx = canvas.getContext("2d");
+/* fireworks */
+const canvas=document.getElementById("fire");
+const ctx=canvas.getContext("2d");
 
 function resize(){
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+canvas.width=innerWidth;
+canvas.height=innerHeight;
 }
 resize();
-window.onresize = resize;
+window.onresize=resize;
 
-let particles = [];
+let parts=[];
 
-function startFireworks(){
-  setInterval(()=>{
-    for(let i=0;i<30;i++){
-      particles.push({
-        x: canvas.width/2,
-        y: canvas.height/2,
-        vx: (Math.random()-0.5)*6,
-        vy: (Math.random()-0.5)*6,
-        life: 60
-      });
-    }
-  },800);
-
-  animate();
+function fireworks(){
+setInterval(()=>{
+for(let i=0;i<30;i++){
+parts.push({
+x:canvas.width/2,
+y:canvas.height/2,
+vx:(Math.random()-0.5)*6,
+vy:(Math.random()-0.5)*6,
+life:60
+});
+}
+},800);
+animate();
 }
 
 function animate(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  particles.forEach(p=>{
-    p.x += p.vx;
-    p.y += p.vy;
-    p.life--;
+parts.forEach(p=>{
+p.x+=p.vx;
+p.y+=p.vy;
+p.life--;
 
-    ctx.fillStyle =
-      "hsl(" + Math.random()*360 + ",100%,60%)";
-    ctx.fillRect(p.x,p.y,4,4);
-  });
+ctx.fillStyle=
+"hsl("+Math.random()*360+",100%,60%)";
+ctx.fillRect(p.x,p.y,4,4);
+});
 
-  particles = particles.filter(p=>p.life>0);
-  requestAnimationFrame(animate);
+parts=parts.filter(p=>p.life>0);
+requestAnimationFrame(animate);
 }
 </script>
 
