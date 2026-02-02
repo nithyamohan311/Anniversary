@@ -27,17 +27,6 @@ cursor:pointer;
 
 img{width:260px;border-radius:12px;margin-top:10px;}
 
-.heart{
-font-size:40px;
-animation:pop .5s ease;
-}
-
-@keyframes pop{
-0%{transform:scale(0);}
-100%{transform:scale(1);}
-}
-
-/* popup */
 #popup{
 position:fixed;
 top:0;left:0;
@@ -53,7 +42,6 @@ z-index:999;
 font-size:24px;
 }
 
-/* fireworks */
 canvas{
 position:fixed;
 top:0;left:0;
@@ -79,8 +67,6 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <button onclick="q1()">All at once</button>
 <button onclick="q1()">It just happened</button>
 <button onclick="q1()">You hacked my heart</button>
-
-<div id="heart"></div>
 </div>
 
 <!-- Q2 -->
@@ -110,15 +96,15 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <!-- Q4 -->
 <div id="q4" class="question hidden">
 <h3>Do you love me?</h3>
-<button onclick="love()">Yes ❤️</button>
-<button disabled>No</button>
+<button onclick="loveYes()">Yes ❤️</button>
+<button onclick="loveNo()">No</button>
 </div>
 
 <!-- Q5 -->
 <div id="q5" class="question hidden">
 <h3>Leave a message when I'm dramatic</h3>
 <textarea rows="4" cols="30"></textarea><br>
-<button onclick="next(6)">Continue</button>
+<button onclick="showOnly(6)">Continue</button>
 </div>
 
 <!-- Q6 -->
@@ -126,7 +112,6 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <h3>By submitting you agree to:</h3>
 <p>Love me, be mine & deal with my nonsense forever 😜</p>
 <button onclick="finish()">I Accept ❤️</button>
-<button disabled>No</button>
 </div>
 
 <h2 id="final"></h2>
@@ -143,22 +128,28 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <script>
 const sound=document.getElementById("sound");
 
-function play(){sound.currentTime=0;sound.play();}
+function play(){
+sound.currentTime=0;
+sound.play();
+}
 
-function next(n){
-document.getElementById("q"+n)
+function showOnly(num){
+for(let i=1;i<=6;i++){
+let el=document.getElementById("q"+i);
+if(el) el.classList.add("hidden");
+}
+document.getElementById("q"+num)
 .classList.remove("hidden");
-document.getElementById("q"+n)
+
+document.getElementById("q"+num)
 .scrollIntoView({behavior:"smooth"});
 }
 
 /* Q1 */
 function q1(){
 play();
-document.getElementById("heart").innerHTML=
-"<div class='heart'>❤️❤️❤️</div>";
-
-setTimeout(()=>next(2),600);
+popup("❤️❤️❤️");
+nextAfterPopup=2;
 }
 
 /* Q2 */
@@ -166,7 +157,7 @@ function q2(){
 play();
 document.getElementById("imgArea").innerHTML=
 "<img src='couple.jpg'>";
-setTimeout(()=>next(3),600);
+setTimeout(()=>showOnly(3),600);
 }
 
 /* Q3 */
@@ -174,20 +165,34 @@ function q3(){
 play();
 document.getElementById("err").innerHTML=
 "<h3>Error 404 😜 Plan not found</h3>";
-setTimeout(()=>next(4),600);
+setTimeout(()=>showOnly(4),600);
 }
 
-/* Love popup */
-function love(){
+/* Love question */
+function loveNo(){
 play();
-document.getElementById("popupText").innerHTML=
-"❤️ This field is locked for your safety ❤️";
+popup("❤️ This field is locked for your safety ❤️");
+nextAfterPopup=4;
+}
+
+function loveYes(){
+play();
+popup("😎 That's my boy ❤️");
+nextAfterPopup=5;
+}
+
+/* popup system */
+let nextAfterPopup=0;
+
+function popup(text){
+document.getElementById("popupText").innerHTML=text;
 document.getElementById("popup").style.display="flex";
 }
 
 function closePopup(){
 document.getElementById("popup").style.display="none";
-next(5);
+if(nextAfterPopup)
+showOnly(nextAfterPopup);
 }
 
 /* Finish */
