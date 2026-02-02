@@ -9,23 +9,40 @@ body{
 font-family:Arial;
 text-align:center;
 background:#ffe6f0;
-padding:20px;
-overflow-x:hidden;
+margin:0;
+overflow:hidden;
 }
 
-.question{margin-top:60px;}
+.center{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:100%;
+}
+
+.question{margin-top:40px;}
 .hidden{display:none;}
 
 button{
-margin:6px;
-padding:10px 15px;
-border-radius:8px;
+margin:8px;
+padding:12px 18px;
+border-radius:10px;
 border:none;
 cursor:pointer;
+font-size:18px;
+}
+
+textarea{
+font-size:18px;
+}
+
+h1,h3{
+font-size:32px;
 }
 
 img{
-width:260px;
+width:300px;
 border-radius:12px;
 margin-top:10px;
 }
@@ -43,7 +60,7 @@ justify-content:center;
 align-items:center;
 text-align:center;
 z-index:999;
-font-size:24px;
+font-size:30px;
 }
 
 canvas{
@@ -58,7 +75,9 @@ pointer-events:none;
 
 <body>
 
-<h1>❤️ Anniversary 2026 ❤️</h1>
+<div class="center">
+
+<h1>🥂 Anniversary 2026 🥂</h1>
 
 <audio id="sound"
 src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
@@ -112,6 +131,8 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <button onclick="finish()">I Accept ❤️</button>
 </div>
 
+</div>
+
 <div id="popup">
 <div>
 <p id="popupText"></p>
@@ -147,8 +168,8 @@ document.getElementById("popup").style.display="none";
 if(nextStep>0) showOnly(nextStep);
 }
 
-/* Intro popup */
-popup("❤️ This field is locked for your safety ❤️<br>Anniversary 2026");
+/* Intro */
+popup("🥂 Anniversary 2026 🥂");
 
 /* Q1 */
 function q1(){
@@ -157,7 +178,7 @@ nextStep=2;
 popup("❤️❤️❤️");
 }
 
-/* Q2 image popup */
+/* Q2 image */
 function q2(){
 play();
 nextStep=3;
@@ -165,14 +186,14 @@ popup("When you miss me... ❤️",
 "<img src='couple.jpg'>");
 }
 
-/* Q3 error popup */
+/* Q3 error */
 function q3(){
 play();
 nextStep=4;
 popup("Error 404 😜 Plan not found");
 }
 
-/* Love question */
+/* Love */
 function loveNo(){
 play();
 nextStep=4;
@@ -185,19 +206,19 @@ nextStep=5;
 popup("😎 That's my boy ❤️");
 }
 
-/* Message */
+/* message */
 function aww(){
 play();
 nextStep=6;
 popup("Awwwwwwww 🥹❤️");
 }
 
-/* Final */
+/* final */
 function finish(){
 play();
 nextStep=0;
 popup("🎉 Happy Anniversary Pattu ❤️ 🎉");
-fireworks();
+burstFireworks();
 }
 
 /* fireworks */
@@ -213,18 +234,20 @@ window.onresize=resize;
 
 let parts=[];
 
-function fireworks(){
-setInterval(()=>{
-for(let i=0;i<30;i++){
+function burstFireworks(){
+for(let k=0;k<8;k++){
+setTimeout(()=>{
+for(let i=0;i<80;i++){
 parts.push({
-x:canvas.width/2,
-y:canvas.height/2,
-vx:(Math.random()-0.5)*6,
-vy:(Math.random()-0.5)*6,
-life:60
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height/2,
+vx:(Math.random()-0.5)*10,
+vy:(Math.random()-0.5)*10,
+life:80
 });
 }
-},800);
+},k*200);
+}
 animate();
 }
 
@@ -235,9 +258,10 @@ parts.forEach(p=>{
 p.x+=p.vx;
 p.y+=p.vy;
 p.life--;
+
 ctx.fillStyle=
 "hsl("+Math.random()*360+",100%,60%)";
-ctx.fillRect(p.x,p.y,4,4);
+ctx.fillRect(p.x,p.y,5,5);
 });
 
 parts=parts.filter(p=>p.life>0);
