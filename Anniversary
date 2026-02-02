@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Happy Anniversary ❤️</title>
+
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #ffe6f0;
+  padding: 20px;
+}
+
+.question {
+  margin-top: 40px;
+}
+
+button {
+  margin: 5px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+img {
+  width: 200px;
+  margin-top: 10px;
+}
+
+.heart {
+  font-size: 40px;
+  animation: pop 0.6s ease;
+}
+
+@keyframes pop {
+  0% {transform: scale(0);}
+  100% {transform: scale(1);}
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>❤️ Happy Anniversary ❤️</h1>
+
+<!-- Q1 -->
+<div class="question">
+<h3>How did you fall for me?</h3>
+<button onclick="showHeart()">Slowly</button>
+<button onclick="showHeart()">All at once</button>
+<button onclick="showHeart()">It just happened</button>
+<button onclick="showHeart()">You hacked my heart</button>
+<div id="heartArea"></div>
+</div>
+
+<!-- Q2 -->
+<div class="question">
+<h3>What do you do when you miss me?</h3>
+<button onclick="showMan()">Text me</button>
+<button onclick="showMan()">Think about me</button>
+<button onclick="showMan()">Smile like an idiot</button>
+<button onclick="showMan()">All of the above</button>
+<div id="manArea"></div>
+</div>
+
+<!-- Q3 -->
+<div class="question">
+<h3>What do you want us to do today?</h3>
+<button onclick="showCafe()">Cute Date</button>
+<button onclick="showCar()">Long Drive</button>
+<button onclick="showHome()">Stay in & do nothing</button>
+<button onclick="error404()">Surprise me</button>
+<div id="activity"></div>
+</div>
+
+<!-- Q4 -->
+<div class="question">
+<h3>Do you love me?</h3>
+<button onclick="love()">Yes ❤️</button>
+<button disabled>No</button>
+<p>This field is locked for your safety 😌</p>
+</div>
+
+<!-- Q5 -->
+<div class="question">
+<h3>Leave a message when I'm dramatic</h3>
+<textarea rows="4" cols="30" placeholder="Type message..."></textarea>
+</div>
+
+<!-- Agreement -->
+<div class="question">
+<h3>By submitting this form you agree to:</h3>
+<p>Love me, be mine & deal with my nonsense forever 😜</p>
+<button onclick="submitForm()">I Accept ❤️</button>
+<button disabled>No, I don't</button>
+</div>
+
+<h2 id="finalMsg"></h2>
+
+<script>
+function showHeart(){
+  document.getElementById("heartArea").innerHTML =
+    "<div class='heart'>❤️❤️❤️</div>";
+}
+
+function showMan(){
+  document.getElementById("manArea").innerHTML =
+    "<img src='https://i.imgur.com/7yUvePI.png'>";
+}
+
+function showCafe(){
+  document.getElementById("activity").innerHTML =
+    "<img src='https://i.imgur.com/Rp7sYbK.jpg'>";
+}
+
+function showCar(){
+  document.getElementById("activity").innerHTML =
+    "<img src='https://i.imgur.com/vR6p7yD.png'>";
+}
+
+function showHome(){
+  document.getElementById("activity").innerHTML =
+    "<p>😏 Stay in & relax together</p>";
+}
+
+function error404(){
+  document.getElementById("activity").innerHTML =
+    "<h3>Error 404: Surprise not found 😆</h3>";
+}
+
+function love(){
+  alert("I knew it 😍");
+}
+
+function submitForm(){
+  document.getElementById("finalMsg").innerHTML =
+    "🎉 Happy Anniversary My Love ❤️";
+}
+</script>
+
+</body>
+</html>
