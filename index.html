@@ -33,13 +33,9 @@ cursor:pointer;
 font-size:18px;
 }
 
-textarea{
-font-size:18px;
-}
+textarea{font-size:18px;}
 
-h1,h3{
-font-size:32px;
-}
+h1,h3{font-size:32px;}
 
 img{
 width:300px;
@@ -47,7 +43,6 @@ border-radius:12px;
 margin-top:10px;
 }
 
-/* popup */
 #popup{
 position:fixed;
 top:0;left:0;
@@ -79,8 +74,9 @@ pointer-events:none;
 
 <h1>🥂 Anniversary 2026 🥂</h1>
 
-<audio id="sound"
-src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
+<!-- Background Music -->
+<audio id="bgm" loop>
+<source src="Eppadi_Vandhaayo.mp3" type="audio/mpeg">
 </audio>
 
 <!-- Q1 -->
@@ -144,10 +140,17 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <canvas id="fire"></canvas>
 
 <script>
-const sound=document.getElementById("sound");
+const bgm=document.getElementById("bgm");
+let musicStarted=false;
 let nextStep=1;
 
-function play(){ sound.currentTime=0; sound.play(); }
+function startMusic(){
+if(!musicStarted){
+bgm.volume=0.6;
+bgm.play().catch(()=>{});
+musicStarted=true;
+}
+}
 
 function showOnly(n){
 for(let i=1;i<=6;i++){
@@ -164,58 +167,52 @@ document.getElementById("popup").style.display="flex";
 }
 
 function closePopup(){
+startMusic();  // music starts here
 document.getElementById("popup").style.display="none";
 if(nextStep>0) showOnly(nextStep);
 }
 
-/* Intro */
+/* Intro popup */
 popup("🥂 Anniversary 2026 🥂");
 
 /* Q1 */
 function q1(){
-play();
 nextStep=2;
 popup("❤️❤️❤️");
 }
 
-/* Q2 image */
+/* Q2 */
 function q2(){
-play();
 nextStep=3;
 popup("When you miss me... ❤️",
 "<img src='couple.jpg'>");
 }
 
-/* Q3 error */
+/* Q3 */
 function q3(){
-play();
 nextStep=4;
 popup("Error 404 😜 Plan not found");
 }
 
 /* Love */
 function loveNo(){
-play();
 nextStep=4;
 popup("❤️ This field is locked for your safety ❤️");
 }
 
 function loveYes(){
-play();
 nextStep=5;
 popup("😎 That's my boy ❤️");
 }
 
-/* message */
+/* Message */
 function aww(){
-play();
 nextStep=6;
 popup("Awwwwwwww 🥹❤️");
 }
 
-/* final */
+/* Final */
 function finish(){
-play();
 nextStep=0;
 popup("🎉 Happy Anniversary Pattu ❤️ 🎉");
 burstFireworks();
