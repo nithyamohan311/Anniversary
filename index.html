@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Happy Anniversary</title>
+<title>Anniversary 2026</title>
 
 <style>
 body{
@@ -14,6 +14,7 @@ overflow-x:hidden;
 }
 
 .question{margin-top:60px;}
+.hidden{display:none;}
 
 button{
 margin:6px;
@@ -23,10 +24,13 @@ border:none;
 cursor:pointer;
 }
 
-.hidden{display:none;}
+img{
+width:260px;
+border-radius:12px;
+margin-top:10px;
+}
 
-img{width:260px;border-radius:12px;margin-top:10px;}
-
+/* popup */
 #popup{
 position:fixed;
 top:0;left:0;
@@ -34,7 +38,7 @@ width:100%;
 height:100%;
 background:black;
 color:white;
-display:none;
+display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
@@ -44,7 +48,8 @@ font-size:24px;
 
 canvas{
 position:fixed;
-top:0;left:0;
+top:0;
+left:0;
 pointer-events:none;
 }
 </style>
@@ -53,16 +58,15 @@ pointer-events:none;
 
 <body>
 
-<h1>❤️ Happy Anniversary ❤️</h1>
+<h1>❤️ Anniversary 2026 ❤️</h1>
 
 <audio id="sound"
 src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 </audio>
 
 <!-- Q1 -->
-<div id="q1" class="question">
+<div id="q1" class="question hidden">
 <h3>How did you fall for me?</h3>
-
 <button onclick="q1()">Slowly</button>
 <button onclick="q1()">All at once</button>
 <button onclick="q1()">It just happened</button>
@@ -72,25 +76,19 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <!-- Q2 -->
 <div id="q2" class="question hidden">
 <h3>What do you do when you miss me?</h3>
-
 <button onclick="q2()">Text me</button>
 <button onclick="q2()">Think about me</button>
 <button onclick="q2()">Smile like an idiot</button>
 <button onclick="q2()">All of the above</button>
-
-<div id="imgArea"></div>
 </div>
 
 <!-- Q3 -->
 <div id="q3" class="question hidden">
 <h3>What do you want us to do today?</h3>
-
 <button onclick="q3()">Cute Date</button>
 <button onclick="q3()">Long Drive</button>
 <button onclick="q3()">Stay in & do nothing</button>
 <button onclick="q3()">Surprise me</button>
-
-<div id="err"></div>
 </div>
 
 <!-- Q4 -->
@@ -104,7 +102,7 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <div id="q5" class="question hidden">
 <h3>Leave a message when I'm dramatic</h3>
 <textarea rows="4" cols="30"></textarea><br>
-<button onclick="showOnly(6)">Continue</button>
+<button onclick="aww()">Continue</button>
 </div>
 
 <!-- Q6 -->
@@ -114,11 +112,10 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 <button onclick="finish()">I Accept ❤️</button>
 </div>
 
-<h2 id="final"></h2>
-
 <div id="popup">
 <div>
 <p id="popupText"></p>
+<div id="popupExtra"></div>
 <button onclick="closePopup()">Continue</button>
 </div>
 </div>
@@ -127,79 +124,79 @@ src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_5a0db9b1f6.mp3">
 
 <script>
 const sound=document.getElementById("sound");
+let nextStep=1;
 
-function play(){
-sound.currentTime=0;
-sound.play();
-}
+function play(){ sound.currentTime=0; sound.play(); }
 
-function showOnly(num){
+function showOnly(n){
 for(let i=1;i<=6;i++){
 let el=document.getElementById("q"+i);
 if(el) el.classList.add("hidden");
 }
-document.getElementById("q"+num)
-.classList.remove("hidden");
-
-document.getElementById("q"+num)
-.scrollIntoView({behavior:"smooth"});
+document.getElementById("q"+n).classList.remove("hidden");
 }
 
-/* Q1 */
-function q1(){
-play();
-popup("❤️❤️❤️");
-nextAfterPopup=2;
-}
-
-/* Q2 */
-function q2(){
-play();
-document.getElementById("imgArea").innerHTML=
-"<img src='couple.jpg'>";
-setTimeout(()=>showOnly(3),600);
-}
-
-/* Q3 */
-function q3(){
-play();
-document.getElementById("err").innerHTML=
-"<h3>Error 404 😜 Plan not found</h3>";
-setTimeout(()=>showOnly(4),600);
-}
-
-/* Love question */
-function loveNo(){
-play();
-popup("❤️ This field is locked for your safety ❤️");
-nextAfterPopup=4;
-}
-
-function loveYes(){
-play();
-popup("😎 That's my boy ❤️");
-nextAfterPopup=5;
-}
-
-/* popup system */
-let nextAfterPopup=0;
-
-function popup(text){
+function popup(text,extra=""){
 document.getElementById("popupText").innerHTML=text;
+document.getElementById("popupExtra").innerHTML=extra;
 document.getElementById("popup").style.display="flex";
 }
 
 function closePopup(){
 document.getElementById("popup").style.display="none";
-if(nextAfterPopup)
-showOnly(nextAfterPopup);
+if(nextStep>0) showOnly(nextStep);
 }
 
-/* Finish */
+/* Intro popup */
+popup("❤️ This field is locked for your safety ❤️<br>Anniversary 2026");
+
+/* Q1 */
+function q1(){
+play();
+nextStep=2;
+popup("❤️❤️❤️");
+}
+
+/* Q2 image popup */
+function q2(){
+play();
+nextStep=3;
+popup("When you miss me... ❤️",
+"<img src='couple.jpg'>");
+}
+
+/* Q3 error popup */
+function q3(){
+play();
+nextStep=4;
+popup("Error 404 😜 Plan not found");
+}
+
+/* Love question */
+function loveNo(){
+play();
+nextStep=4;
+popup("❤️ This field is locked for your safety ❤️");
+}
+
+function loveYes(){
+play();
+nextStep=5;
+popup("😎 That's my boy ❤️");
+}
+
+/* Message */
+function aww(){
+play();
+nextStep=6;
+popup("Awwwwwwww 🥹❤️");
+}
+
+/* Final */
 function finish(){
 play();
-document.getElementById("final").innerHTML=
-"🎉❤️ Happy Anniversary Pattu ❤️🎉";
+nextStep=0;
+popup("🎉 Happy Anniversary Pattu ❤️ 🎉");
 fireworks();
 }
 
@@ -238,7 +235,6 @@ parts.forEach(p=>{
 p.x+=p.vx;
 p.y+=p.vy;
 p.life--;
-
 ctx.fillStyle=
 "hsl("+Math.random()*360+",100%,60%)";
 ctx.fillRect(p.x,p.y,4,4);
